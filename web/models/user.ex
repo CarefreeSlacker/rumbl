@@ -10,15 +10,17 @@ defmodule Rumbl.User do
 
 	def changeset(model, params \\ %{}) do
 		model
-		|> cast(params, [:name, :username], [])
+		|> cast(params,  [:name, :username])
+		|> validate_required([:name, :username])
 		|> validate_length(:username, min: 1, max: 20)
   end
 
   def registration_changeset(model, params \\ %{}) do
 		model
-		|> changeset
-		|> cast(params, ~w(password), [])
-		|> validate_length(:username, min: 6, max: 20)
+		|> changeset(params)
+		|> cast(params, [:password])
+		|> validate_required([:password])
+		|> validate_length(:password, min: 6, max: 20)
 		|> put_pass_hash
 	end
 

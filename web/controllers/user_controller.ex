@@ -3,7 +3,7 @@ defmodule Rumbl.UserController do
   alias Rumbl.User
   alias Rumbl.Repo
 
-  plug :action
+  plug :authenticate when action in [:index, :show]
 
   def new(conn, _params) do
   	changeset = User.changeset(%User{})
@@ -11,14 +11,14 @@ defmodule Rumbl.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-		changeset = User.changeset(%User{}, user_params)
-		try do
-			user = Repo.insert(changeset)
-			conn
-			|> put_flash(:info , "#{user.name }  created!" )
-			|> redirect(to: user_path(conn, :index))
-		rescue
-			Postgrex.Error -> render conn, "new.html", changeset: changeset
+		changeset = User.registration_changeset(%User{}, user_params)
+		case Repo.insert(changeset) do
+			{ :ok, user } ->
+				conn
+				|> put_flash(:info , "#{user.name }  created!" )
+				|> redirect(to: user_path(conn, :index))
+			{ :error, changeset } ->
+				render conn, "new.html", changeset: changeset
 		end
   end
 
@@ -30,5 +30,16 @@ defmodule Rumbl.UserController do
   def show(conn, %{ "id" => id}) do
     user = Rumbl.Repo.get(Rumbl.User, id)
 		render conn, "show.html", user: user
+  end
+
+  defp authenticate(conn, _opts) do
+  	if conn.assigns.current_user do
+  		conn
+		else
+			conn
+			|> put_flash(:error, "You re not authorized")
+			|> redirect(to: page_path(conn, :index))
+			|> halt
+  	end
   end
 end
