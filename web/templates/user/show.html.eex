@@ -1,0 +1,7 @@
+<%= link 'Back', to: user_path(@conn, :index) %>
+<ul>
+
+    <li><%= render "user.html", user: @user %></li>
+    <li>username: <%= @user.username %></li>
+    <li>password: <%= @user.password %></li>
+</ul>
