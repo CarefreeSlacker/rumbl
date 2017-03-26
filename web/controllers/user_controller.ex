@@ -3,7 +3,7 @@ defmodule Rumbl.UserController do
   alias Rumbl.User
   alias Rumbl.Repo
 
-  plug :authenticate when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show]
 
   def new(conn, _params) do
   	changeset = User.changeset(%User{})
@@ -30,16 +30,5 @@ defmodule Rumbl.UserController do
   def show(conn, %{ "id" => id}) do
     user = Rumbl.Repo.get(Rumbl.User, id)
 		render conn, "show.html", user: user
-  end
-
-  defp authenticate(conn, _opts) do
-  	if conn.assigns.current_user do
-  		conn
-		else
-			conn
-			|> put_flash(:error, "You re not authorized")
-			|> redirect(to: page_path(conn, :index))
-			|> halt
-  	end
   end
 end
