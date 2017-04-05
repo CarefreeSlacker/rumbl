@@ -9,11 +9,16 @@ config :rumbl, Rumbl.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# Эти настройки позволяют ускорить хеширование паролей в тестовой среде
+config :comeonin, :bcrypt_log_rounds, 4
+config :comeonin, :pbkdf2_rounds, 1
+
 # Configure your database
 config :rumbl, Rumbl.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "carefreeslacker",
   password: "123123",
-  database: "rumbl_dev",
+  database: "rumbl_test",
   hostname: "localhost",
-  pool_size: 5
+  pool_size: 5,
+  pool: Ecto.Adapters.SQL.Sandbox
