@@ -41,3 +41,5 @@ config :rumbl, Rumbl.Repo,
   database: "rumbl_dev",
   hostname: "localhost",
   pool_size: 5
+
+import_config "dev.secret.exs"
