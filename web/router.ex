@@ -28,4 +28,5 @@ defmodule Rumbl.Router do
 
 		resources "/video", VideoController
 	end
+
 end
