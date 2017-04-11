@@ -17,6 +17,11 @@ import socket from "./socket"
 import Video from "./video"
 Video.init(socket, document.getElementById( "video" ))
 
+import RoomChat from './room_chat'
+if(document.getElementById("room_chat")){
+  RoomChat.init(socket, document.getElementById("room_chat"))
+}
+
 // import Player from "./player.js"
 // let video = document.getElementById("video")
 // if (video) {

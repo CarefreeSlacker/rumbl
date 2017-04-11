@@ -1,0 +1,19 @@
+<h2>Show room</h2>
+
+<ul>
+
+  <li>
+  	<h3><%= @room.title %></h3>
+  </li>
+  <div id="room_chat" data-room-id="<%= @room.id %>">
+  	<div id="room_messages"></div>
+		<div>
+			<textarea id="message_input"></textarea>
+			<br>
+			<button id="submit_button" class="btn btn-primary">Отослать</button>
+		</div>
+	</div>
+</ul>
+
+<%= link "Edit", to: room_path(@conn, :edit, @room) %>
+<%= link "Back", to: room_path(@conn, :index) %>
