@@ -31,4 +31,13 @@ defmodule Rumbl.InfoSys.Wolfram do
 	end
 
 	def app_id, do: Application.get_env(:rumbl, :wolfram)[:app_id]
+
+	@http Application.get_env(:rumbl , :wolfram )[ :http_client ] || :httpc
+	defp fetch_xml(query_str) do
+		{ :ok , {_, _, body}} = @http.request(
+			String.to_char_list("http://api.wolframalpha.com/v2/query" <>
+			"?appid=#{ app_id() }" <>
+			"&input=#{ URI.encode_www_form(query_str) }&format=plaintext"))
+		body
+  end
 end

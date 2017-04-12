@@ -22,3 +22,7 @@ config :rumbl, Rumbl.Repo,
   hostname: "localhost",
   pool_size: 5,
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :rumbl, :wolfram,
+			 app_id: "1234",
+			 http_client: InfoSys.Test.HTTPClient
